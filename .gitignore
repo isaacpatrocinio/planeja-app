@@ -1,1 +1,3 @@
 files/
+*.mv.db
+*.trace.db
