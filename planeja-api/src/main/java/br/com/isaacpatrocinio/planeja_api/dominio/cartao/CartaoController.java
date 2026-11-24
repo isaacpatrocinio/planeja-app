@@ -63,5 +63,11 @@ public class CartaoController {
         service.deletar(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<Void> mudarStatus(@PathVariable(name = "id") UUID id) {
+        service.mudarStatus(id);
+        return ResponseEntity.noContent().build();
+    }
 }
 

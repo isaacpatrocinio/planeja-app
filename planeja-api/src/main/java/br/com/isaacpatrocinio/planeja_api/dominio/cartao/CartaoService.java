@@ -7,6 +7,7 @@ import br.com.isaacpatrocinio.planeja_api.dominio.cartao.dto.CartaoDetalhes;
 import br.com.isaacpatrocinio.planeja_api.dominio.cartao.dto.CartaoForm;
 import br.com.isaacpatrocinio.planeja_api.dominio.cartao.mapper.CartaoMapper;
 import br.com.isaacpatrocinio.planeja_api.dominio.cartao.model.CartaoEntity;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -61,6 +62,7 @@ public class CartaoService {
                 .map(mapper::toDetalhes);
     }
 
+    @Transactional
     public void atualizar(UUID id, CartaoForm objAtualizado) {
         var obj = repository.findById(id)
                 .orElseThrow(RegistroNaoEncontradoException::new);
@@ -70,12 +72,19 @@ public class CartaoService {
         }
 
         mapper.updateEntity(objAtualizado, obj);
-        repository.save(obj);
     }
 
     public void deletar(UUID id) {
         var obj = repository.findById(id)
                 .orElseThrow(RegistroNaoEncontradoException::new);
         repository.delete(obj);
+    }
+
+    @Transactional
+    public void mudarStatus(UUID id) {
+        var obj = repository
+                .findById(id)
+                .orElseThrow(RegistroNaoEncontradoException::new);
+        obj.setAtivo(!obj.getAtivo());
     }
 }
