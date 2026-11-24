@@ -20,7 +20,20 @@ export class CartaoService {
   listar(page: number = 0, size: number = 10)
     : Observable<PageResult<DetalhesCartao>> {
     const url = `${this.baseUrl}?page=${page}&size=${size}`
-    return this.http
-      .get<PageResult<DetalhesCartao>>(url)  
+    return this.http.get<PageResult<DetalhesCartao>>(url)  
+  }
+
+  obterPorId(id: string) : Observable<DetalhesCartao>{
+    const url = `${this.baseUrl}/${id}`
+    return this.http.get<DetalhesCartao>(url)
+  }
+
+  atualizar(id: string, dadosAtualizados: DadosCartaoForm) : Observable<void> {
+    const url = `${this.baseUrl}/${id}`
+    return this.http.put<void>(url, dadosAtualizados)
+  }
+
+  mudarStatus(id: string) : Observable<void> {
+    return this.http.patch<void>(`${this.baseUrl}/${id}/status`, null)
   }
 }

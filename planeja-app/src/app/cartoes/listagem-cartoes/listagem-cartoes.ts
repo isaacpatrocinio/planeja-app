@@ -4,17 +4,21 @@ import { PageResult } from '../../common/pagination/page-result';
 import { Observable } from 'rxjs';
 import { DetalhesCartao } from '../dados-cartao';
 import { CommonModule } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
+import { ToastrService } from '@iqx-limited/ngx-toastr';
 
 @Component({
   selector: 'app-listagem-cartoes',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './listagem-cartoes.html',
   styleUrl: './listagem-cartoes.scss',
 })
 export class ListagemCartoes
   implements OnInit {
 
-    service = inject(CartaoService)
+  service = inject(CartaoService)
+  router = inject(Router)
+  toast = inject(ToastrService)
   listagem$!: Observable<PageResult<DetalhesCartao>>;
   paginaAtual = 0;
   totalPaginas = 10;
@@ -34,30 +38,48 @@ export class ListagemCartoes
   }
 
   navegarProximo(listagem: PageResult<DetalhesCartao>) {
-    if(!listagem.last) {
+    if (!listagem.last) {
       this.navegar(listagem.number + 1)
     }
   }
 
   navegarAnterior(listagem: PageResult<DetalhesCartao>) {
-    if(!listagem.first) {
+    if (!listagem.first) {
       this.navegar(listagem.number - 1)
     }
   }
 
-  paginas(totalPages : number) : number[] {
-    return Array.from({length: totalPages}, (value, index) => index)
+  paginas(totalPages: number): number[] {
+    return Array.from({ length: totalPages }, (value, index) => index)
   }
 
-  registroInicial(listagem : PageResult<DetalhesCartao>) {
-    if(listagem.totalElements === 0) return 0
+  registroInicial(listagem: PageResult<DetalhesCartao>) {
+    if (listagem.totalElements === 0) return 0
 
     return (listagem.number * listagem.size) + 1
   }
 
-  registroFinal(listagem : PageResult<DetalhesCartao>) {
-    if(listagem.totalElements === 0) return 0
+  registroFinal(listagem: PageResult<DetalhesCartao>) {
+    if (listagem.totalElements === 0) return 0
 
     return (Math.min((listagem.number + 1 * listagem.size), listagem.totalElements))
+  }
+
+  prepararEdicao(idCartao: string): void {
+    this.router.navigate(['paginas/cadastro-cartoes'], {
+      queryParams: {
+        id: idCartao
+      }
+    })
+  }
+
+  mudarStatus(idCartao: string) : void {
+    this.service.mudarStatus(idCartao)
+      .subscribe({
+        next: () => {
+          this.toast.success("Registro atualizado com sucesso.")
+          this.listarCartoes()
+        }
+      })
   }
 }

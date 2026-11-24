@@ -9,7 +9,7 @@
 <main class="content">
 
     <div class="card">
-        <h2>Novo Cartão</h2>
+        <h2>{{ idCartaoEdicao ? "Editar " : "Novo "}}Cartão</h2>
 
         <form [formGroup]="form" (ngSubmit)="handleSubmit()" class="form">
 
@@ -40,13 +40,15 @@
                     <option value="ELO">Elo</option>
                 </select>
 
-                @if(form.controls.bandeira.hasError('required') && form.controls.bandeira.touched) {
+                @if(form.controls.bandeira.hasError('required') && 
+                    form.controls.bandeira.touched) {
                 <span class="form-hint form-hint-error">
                     A bandeira é obrigatória.
                 </span>
                 }
 
-                @if(form.controls.bandeira.hasError('apiError') && form.controls.bandeira.touched) {
+                @if(form.controls.bandeira.hasError('apiError') && 
+                    form.controls.bandeira.touched) {
                 <span class="form-hint form-hint-error">
                     {{ form.get('bandeira')?.errors?.['apiError'] }}
                 </span>
@@ -54,8 +56,12 @@
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn-primary">Salvar</button>
-                <button type="button" class="btn-secondary">Cancelar</button>
+                <button type="submit" class="btn-primary">
+                    {{ idCartaoEdicao ? "Atualizar " : "Salvar " }}
+                </button>
+                <button type="button" class="btn-secondary" 
+                    [routerLink]="['/paginas/listagem-cartoes']">Cancelar
+                </button>
             </div>
         </form>
     </div>

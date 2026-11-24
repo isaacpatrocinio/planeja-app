@@ -8,4 +8,5 @@ export interface DetalhesCartao {
     nome: string;
     bandeira: string;
     dataCadastro: Date;
+    ativo: boolean;
 }
