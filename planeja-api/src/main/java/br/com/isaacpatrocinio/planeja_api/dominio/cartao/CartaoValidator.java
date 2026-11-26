@@ -17,7 +17,7 @@ public class CartaoValidator {
     }
 
     public ValidationResult validar(CartaoForm form, UUID id) {
-        var result = ValidationResult.novaInstancia();
+        var result = ValidationResult.obter();
         boolean isListaNaoVazia = !repository.findByNomeAndNotId(form.nome(), id).isEmpty();
         if (isListaNaoVazia) {
             result.add(new CampoInvalido("nome", "Já cadastrado."));

@@ -11,7 +11,7 @@ public class ValidationResult {
         this.camposInvalidos = campoInvalidos;
     }
 
-    public static ValidationResult novaInstancia() {
+    public static ValidationResult obter() {
         return new ValidationResult(new ArrayList<>());
     }
 

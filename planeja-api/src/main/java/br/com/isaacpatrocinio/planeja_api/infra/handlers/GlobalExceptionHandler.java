@@ -20,34 +20,34 @@ public class GlobalExceptionHandler {
             ValidationException e
     ) {
         var status = HttpStatus.UNPROCESSABLE_CONTENT;
-        var response = Map.of(
+        var responseMap = Map.of(
                 "timestamp", LocalDateTime.now(),
                 "status", status.value(),
                 "error", e.getMessage(),
                 "camposInvalidos", e.getCamposInvalidos()
         );
 
-        return ResponseEntity.status(status).body(response);
+        return ResponseEntity.status(status).body(responseMap);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException e
     ) {
-        var camposInvalidos = e
+        var listCamposInvalidos = e
                 .getFieldErrors()
                 .stream()
                 .map(error -> new CampoInvalido(error.getField(), error.getDefaultMessage()))
                 .toList();
         var status = HttpStatus.UNPROCESSABLE_CONTENT;
-        var response = Map.of(
+        var responseMap = Map.of(
                 "timestamp", LocalDateTime.now(),
                 "status", status.value(),
                 "error", e.getMessage(),
-                "camposInvalidos", camposInvalidos
+                "listCamposInvalidos", listCamposInvalidos
         );
 
-        return ResponseEntity.status(status).body(response);
+        return ResponseEntity.status(status).body(responseMap);
     }
 
     @ExceptionHandler(RegistroNaoEncontradoException.class)
@@ -55,13 +55,13 @@ public class GlobalExceptionHandler {
             RegistroNaoEncontradoException e
     ) {
         var status = HttpStatus.NOT_FOUND;
-        var response = Map.of(
+        var responseMap = Map.of(
                 "timestamp", LocalDateTime.now(),
                 "status", status.value(),
                 "error", e.getMessage(),
                 "message", e.getMessage()
         );
 
-        return ResponseEntity.status(status).body(response);
+        return ResponseEntity.status(status).body(responseMap);
     }
 }

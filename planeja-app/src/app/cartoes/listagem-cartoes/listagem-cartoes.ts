@@ -62,7 +62,7 @@ export class ListagemCartoes
   registroFinal(listagem: PageResult<DetalhesCartao>) {
     if (listagem.totalElements === 0) return 0
 
-    return (Math.min((listagem.number + 1 * listagem.size), listagem.totalElements))
+    return (Math.min((listagem.number + 1) * listagem.size, listagem.totalElements))
   }
 
   prepararEdicao(idCartao: string): void {
