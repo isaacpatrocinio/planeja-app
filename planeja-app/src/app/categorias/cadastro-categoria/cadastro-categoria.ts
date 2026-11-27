@@ -49,6 +49,7 @@ export class CadastroCategoria {
         this.form.reset()
       },
       error: (error) => {
+        this.onApiError(error)
         console.log(error)
       }
     })
