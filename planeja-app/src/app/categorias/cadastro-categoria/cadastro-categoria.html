@@ -1,0 +1,30 @@
+<app-header titulo="Cadastro de Categorias"></app-header>
+<main class="content">
+
+    <div class="card">
+        <h2>Nova Categoria</h2>
+        <form [formGroup]="form" class="form" (ngSubmit)="handleSubmit()">
+            <div class="form-group">
+                <label>Nome da Categoria: *</label>
+                <input 
+                    formControlName="nome"
+                    type="text"
+                    name="nome"
+                    id="nome"
+                    placeholder="Ex: Lazer"
+                >
+                @if (form.controls.nome.hasError('required') && form.controls.nome.touched) {
+                    <span class="form-hint form-hint-error">
+                        O nome da categoria é obrigatório.
+                    </span>
+                }
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Salvar</button>
+                <button type="submit" class="btn-secondary" [routerLink]="['/paginas/listagem-categorias']">Cancelar</button>
+            </div>
+
+        </form>
+    </div>
+</main>
